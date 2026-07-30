@@ -59,6 +59,10 @@
             cursor: pointer;
         }
 
+        .logout:hover {
+            background: #f3f4f6;
+        }
+
         .container {
             max-width: 1000px;
             margin: 50px auto;
@@ -78,7 +82,7 @@
         }
 
         .actions {
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .button {
@@ -94,9 +98,23 @@
             color: white;
         }
 
+        .primary:hover {
+            background: #374151;
+        }
+
         .danger {
             background: #fee2e2;
             color: #991b1b;
+        }
+
+        .danger:hover {
+            background: #fecaca;
+        }
+
+        .cv-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
         .cv-card {
@@ -113,8 +131,13 @@
             gap: 20px;
         }
 
+        .cv-info {
+            min-width: 0;
+        }
+
         .cv-info h2 {
             margin-bottom: 8px;
+            word-break: break-word;
         }
 
         .cv-info p {
@@ -125,11 +148,12 @@
         .cv-actions {
             display: flex;
             gap: 10px;
+            flex-shrink: 0;
         }
 
         .empty {
             background: white;
-            padding: 50px;
+            padding: 60px 30px;
             text-align: center;
             border-radius: 15px;
             color: #6b7280;
@@ -138,6 +162,15 @@
         .empty h2 {
             color: #111827;
             margin-bottom: 10px;
+        }
+
+        .empty p {
+            margin-bottom: 20px;
+        }
+
+        .count {
+            color: #6b7280;
+            margin-bottom: 15px;
         }
 
         @media (max-width: 700px) {
@@ -208,7 +241,7 @@
         </h1>
 
         <p>
-            Gère tes CV depuis cet espace.
+            Gère tous tes CV depuis cet espace.
         </p>
 
     </div>
@@ -226,21 +259,13 @@
     </div>
 
 
-    <div id="cvContainer">
+    <p
+        class="count"
+        id="cvCount"
+    ></p>
 
-        <div class="empty">
 
-            <h2>
-                Aucun CV
-            </h2>
-
-            <p>
-                Crée ton premier CV pour commencer.
-            </p>
-
-        </div>
-
-    </div>
+    <div id="cvContainer"></div>
 
 
 </div>
@@ -250,7 +275,7 @@
 
 
 // ==================================================
-// UTILISATEUR CONNECTÉ
+// UTILISATEUR
 // ==================================================
 
 const currentUser =
@@ -283,6 +308,11 @@ const cvContainer =
         "cvContainer"
     );
 
+const cvCount =
+    document.getElementById(
+        "cvCount"
+    );
+
 const newCV =
     document.getElementById(
         "newCV"
@@ -295,7 +325,22 @@ const logoutButton =
 
 
 // ==================================================
-// INFORMATIONS DU COMPTE
+// CLÉ DES CV
+// ==================================================
+
+const userEmail =
+    currentUser.email
+        .trim()
+        .toLowerCase();
+
+
+const usersCVKey =
+    "cvlyCVs_" +
+    userEmail;
+
+
+// ==================================================
+// NOM UTILISATEUR
 // ==================================================
 
 userName.textContent =
@@ -305,59 +350,56 @@ userName.textContent =
 
 
 // ==================================================
-// CLÉS DE SAUVEGARDE
+// RÉCUPÉRER LES CV
 // ==================================================
 
-// IMPORTANT :
-// C'est exactement la même clé
-// que dans script.js.
+function getCVs() {
 
-const userEmail =
-    currentUser.email
-        .trim()
-        .toLowerCase();
-
-
-const cvKey =
-    "cvlyCV_" +
-    userEmail;
-
-
-const photoKey =
-    "cvlyPhoto_" +
-    userEmail;
-
-
-// ==================================================
-// AFFICHER LE CV
-// ==================================================
-
-function afficherCV() {
-
-
-    const sauvegarde =
+    return JSON.parse(
         localStorage.getItem(
-            cvKey
+            usersCVKey
+        )
+    ) || [];
+
+}
+
+
+// ==================================================
+// SAUVEGARDER
+// ==================================================
+
+function saveCVs(cvs) {
+
+    localStorage.setItem(
+        usersCVKey,
+        JSON.stringify(cvs)
+    );
+
+}
+
+
+// ==================================================
+// AFFICHER LES CV
+// ==================================================
+
+function afficherCVs() {
+
+    const cvs =
+        getCVs();
+
+
+    cvCount.textContent =
+        cvs.length +
+        (
+            cvs.length > 1
+                ? " CV enregistrés"
+                : " CV enregistré"
         );
 
 
-    // DEBUG
-    console.log(
-        "Clé recherchée :",
-        cvKey
-    );
+    // Aucun CV
 
-    console.log(
-        "CV trouvé :",
-        sauvegarde
-    );
-
-
-    // =========================
-    // AUCUN CV
-    // =========================
-
-    if (!sauvegarde) {
+    if (cvs.length === 0) {
 
         cvContainer.innerHTML = `
 
@@ -368,215 +410,352 @@ function afficherCV() {
                 </h2>
 
                 <p>
-                    Crée ton premier CV
-                    pour commencer.
+                    Crée ton premier CV pour commencer.
                 </p>
+
+                <button
+                    class="button primary"
+                    id="emptyNewCV"
+                >
+                    + Créer mon premier CV
+                </button>
 
             </div>
 
         `;
 
-        return;
 
-    }
-
-
-    // =========================
-    // RÉCUPÉRER LE CV
-    // =========================
-
-    let cv;
-
-
-    try {
-
-        cv =
-            JSON.parse(
-                sauvegarde
+        document
+            .getElementById("emptyNewCV")
+            .addEventListener(
+                "click",
+                creerCV
             );
 
-    } catch (error) {
-
-        console.error(
-            "Erreur lors du chargement du CV :",
-            error
-        );
 
         return;
 
     }
 
 
-    // =========================
-    // AFFICHAGE
-    // =========================
-
-    const nomCV =
-        cv.cvName ||
-        "Mon CV";
-
-
-    const prenom =
-        cv.prenom ||
-        "";
-
-
-    const nom =
-        cv.nom ||
-        "";
-
-
-    const nomComplet =
-        (
-            prenom +
-            " " +
-            nom
-        ).trim();
-
-
-    const modele =
-        cv.modele ||
-        "classic";
-
+    // Plusieurs CV
 
     cvContainer.innerHTML = `
 
-        <div class="cv-card">
+        <div class="cv-list">
+
+            ${cvs.map(
+                function(cv) {
+
+                    const nomCV =
+                        cv.cvName ||
+                        "Mon CV";
+
+                    const prenom =
+                        cv.prenom ||
+                        "";
+
+                    const nom =
+                        cv.nom ||
+                        "";
+
+                    const nomComplet =
+                        (
+                            prenom +
+                            " " +
+                            nom
+                        ).trim();
 
 
-            <div class="cv-info">
+                    return `
 
-                <h2>
-                    📄 ${nomCV}
-                </h2>
+                        <div
+                            class="cv-card"
+                            data-id="${cv.id}"
+                        >
 
+                            <div class="cv-info">
 
-                <p>
-                    ${
-                        nomComplet ||
-                        "CV sans nom"
-                    }
-                </p>
+                                <h2>
+                                    📄 ${escapeHTML(nomCV)}
+                                </h2>
 
+                                <p>
+                                    ${
+                                        escapeHTML(
+                                            nomComplet ||
+                                            "CV sans nom"
+                                        )
+                                    }
+                                </p>
 
-                <p>
-                    Modèle :
-                    ${modele}
-                </p>
+                                <p>
+                                    Modèle :
+                                    ${
+                                        escapeHTML(
+                                            cv.modele ||
+                                            "classic"
+                                        )
+                                    }
+                                </p>
 
-            </div>
-
-
-            <div class="cv-actions">
-
-
-                <button
-                    class="button primary"
-                    id="editCV"
-                >
-                    Modifier
-                </button>
-
-
-                <button
-                    class="button danger"
-                    id="deleteCV"
-                >
-                    Supprimer
-                </button>
+                            </div>
 
 
-            </div>
+                            <div class="cv-actions">
 
+                                <button
+                                    class="button primary edit-button"
+                                    data-id="${cv.id}"
+                                >
+                                    Modifier
+                                </button>
+
+
+                                <button
+                                    class="button danger delete-button"
+                                    data-id="${cv.id}"
+                                >
+                                    Supprimer
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            ).join("")}
 
         </div>
 
     `;
 
 
-    // ==================================================
-    // MODIFIER
-    // ==================================================
+    // Modifier
 
-    const editCV =
-        document.getElementById(
-            "editCV"
-        );
+    document
+        .querySelectorAll(".edit-button")
+        .forEach(
+            function(button) {
 
+                button.addEventListener(
+                    "click",
+                    function() {
 
-    editCV.addEventListener(
-        "click",
-        function () {
+                        const id =
+                            button.dataset.id;
 
-            window.location.href =
-                "create.html";
+                        window.location.href =
+                            "create.html?id=" +
+                            encodeURIComponent(id);
 
-        }
-    );
-
-
-    // ==================================================
-    // SUPPRIMER
-    // ==================================================
-
-    const deleteCV =
-        document.getElementById(
-            "deleteCV"
-        );
-
-
-    deleteCV.addEventListener(
-        "click",
-        function () {
-
-
-            const confirmation =
-                confirm(
-                    "Voulez-vous vraiment supprimer ce CV ?"
+                    }
                 );
 
-
-            if (!confirmation) {
-                return;
             }
+        );
 
 
-            // Supprimer le CV
+    // Supprimer
 
-            localStorage.removeItem(
-                cvKey
-            );
+    document
+        .querySelectorAll(".delete-button")
+        .forEach(
+            function(button) {
 
+                button.addEventListener(
+                    "click",
+                    function() {
 
-            // Supprimer la photo
+                        supprimerCV(
+                            button.dataset.id
+                        );
 
-            localStorage.removeItem(
-                photoKey
-            );
+                    }
+                );
 
-
-            // Rafraîchir
-
-            afficherCV();
-
-        }
-    );
+            }
+        );
 
 }
 
 
 // ==================================================
-// CRÉER UN CV
+// CRÉER UN NOUVEAU CV
+// ==================================================
+
+function creerCV() {
+
+    // On crée un CV uniquement
+    // quand l'utilisateur clique
+    // sur le bouton.
+
+    const cvs =
+        getCVs();
+
+
+    const nouveauCV = {
+
+        id:
+            Date.now().toString(),
+
+        cvName:
+            "Mon nouveau CV",
+
+        prenom:
+            currentUser.firstName || "",
+
+        nom:
+            "",
+
+        email:
+            currentUser.email || "",
+
+        telephone:
+            "",
+
+        ville:
+            "",
+
+        profil:
+            "",
+
+        diplome:
+            "",
+
+        etablissement:
+            "",
+
+        annee:
+            "",
+
+        poste:
+            "",
+
+        entreprise:
+            "",
+
+        description:
+            "",
+
+        competences:
+            "",
+
+        modele:
+            "classic",
+
+        photo:
+            ""
+
+    };
+
+
+    cvs.push(
+        nouveauCV
+    );
+
+
+    saveCVs(
+        cvs
+    );
+
+
+    // Ouvrir le nouveau CV
+
+    window.location.href =
+        "create.html?id=" +
+        encodeURIComponent(
+            nouveauCV.id
+        );
+
+}
+
+
+// ==================================================
+// SUPPRIMER UN CV
+// ==================================================
+
+function supprimerCV(id) {
+
+    const confirmation =
+        confirm(
+            "Voulez-vous vraiment supprimer ce CV ?"
+        );
+
+
+    if (!confirmation) {
+        return;
+    }
+
+
+    let cvs =
+        getCVs();
+
+
+    const cv =
+        cvs.find(
+            function(item) {
+                return item.id === id;
+            }
+        );
+
+
+    // Supprimer le CV
+
+    cvs =
+        cvs.filter(
+            function(item) {
+                return item.id !== id;
+            }
+        );
+
+
+    saveCVs(
+        cvs
+    );
+
+
+    // Supprimer également
+    // la photo enregistrée
+    // dans ce CV.
+
+    if (cv) {
+
+        cv.photo = "";
+
+    }
+
+
+    afficherCVs();
+
+}
+
+
+// ==================================================
+// ÉCHAPPER LE HTML
+// ==================================================
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+
+}
+
+
+// ==================================================
+// NOUVEAU CV
 // ==================================================
 
 newCV.addEventListener(
     "click",
-    function () {
-
-        window.location.href =
-            "create.html";
-
-    }
+    creerCV
 );
 
 
@@ -586,13 +765,11 @@ newCV.addEventListener(
 
 logoutButton.addEventListener(
     "click",
-    function () {
-
+    function() {
 
         localStorage.removeItem(
             "cvlyCurrentUser"
         );
-
 
         window.location.href =
             "index.html";
@@ -605,11 +782,11 @@ logoutButton.addEventListener(
 // DÉMARRAGE
 // ==================================================
 
-afficherCV();
+afficherCVs();
 
 
 console.log(
-    "✅ Dashboard CVly chargé"
+    "✅ Dashboard multi-CV chargé"
 );
 
 </script>
