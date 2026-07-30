@@ -5,10 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>CVly — Tableau de bord</title>
 
@@ -29,9 +26,7 @@
         header {
             background: white;
             padding: 20px 8%;
-
-            border-bottom:
-                1px solid #e5e7eb;
+            border-bottom: 1px solid #e5e7eb;
 
             display: flex;
             justify-content: space-between;
@@ -55,14 +50,10 @@
 
         .logout {
             padding: 9px 15px;
-
             border: 1px solid #d1d5db;
             border-radius: 8px;
-
             background: white;
             cursor: pointer;
-
-            font-size: 14px;
         }
 
         .logout:hover {
@@ -71,9 +62,7 @@
 
         .container {
             max-width: 1000px;
-
             margin: 50px auto;
-
             padding: 20px;
         }
 
@@ -90,28 +79,19 @@
         }
 
         .actions {
-            display: flex;
-
-            gap: 15px;
-
             margin-bottom: 40px;
         }
 
         .button {
-            padding: 14px 22px;
-
+            padding: 13px 20px;
             border: none;
-
-            border-radius: 10px;
-
+            border-radius: 9px;
             cursor: pointer;
-
-            font-size: 16px;
+            font-size: 15px;
         }
 
         .primary {
             background: #111827;
-
             color: white;
         }
 
@@ -119,22 +99,27 @@
             background: #1f2937;
         }
 
+        .danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .danger:hover {
+            background: #fecaca;
+        }
+
         .cv-card {
             background: white;
-
             border-radius: 15px;
-
             padding: 25px;
 
             box-shadow:
                 0 5px 20px rgba(0,0,0,0.05);
 
             display: flex;
-
-            justify-content:
-                space-between;
-
+            justify-content: space-between;
             align-items: center;
+            gap: 20px;
         }
 
         .cv-info h2 {
@@ -147,25 +132,19 @@
 
         .cv-actions {
             display: flex;
-
             gap: 10px;
         }
 
         .empty {
             background: white;
-
             padding: 50px;
-
             text-align: center;
-
             border-radius: 15px;
-
             color: #6b7280;
         }
 
         .empty h2 {
             color: #111827;
-
             margin-bottom: 10px;
         }
 
@@ -181,10 +160,7 @@
 
             .cv-card {
                 flex-direction: column;
-
                 align-items: flex-start;
-
-                gap: 20px;
             }
 
             .header-right {
@@ -193,6 +169,14 @@
 
             .user {
                 display: none;
+            }
+
+            .cv-actions {
+                width: 100%;
+            }
+
+            .cv-actions button {
+                flex: 1;
             }
 
         }
@@ -297,10 +281,6 @@ const currentUser =
     );
 
 
-// ==================================================
-// PROTECTION
-// ==================================================
-
 if (!currentUser) {
 
     window.location.href =
@@ -318,18 +298,15 @@ const cvContainer =
         "cvContainer"
     );
 
-
 const newCV =
     document.getElementById(
         "newCV"
     );
 
-
 const userName =
     document.getElementById(
         "userName"
     );
-
 
 const logoutButton =
     document.getElementById(
@@ -338,7 +315,7 @@ const logoutButton =
 
 
 // ==================================================
-// AFFICHER LE COMPTE
+// COMPTE
 // ==================================================
 
 userName.textContent =
@@ -348,25 +325,51 @@ userName.textContent =
 
 
 // ==================================================
-// CLÉ DU CV
+// CLÉS DU COMPTE
 // ==================================================
 
 const cvKey =
     "cvlyCV_" +
     currentUser.email;
 
+const photoKey =
+    "cvlyPhoto_" +
+    currentUser.email;
+
 
 // ==================================================
-// RÉCUPÉRER LE CV
+// AFFICHER LE CV
 // ==================================================
 
-const sauvegarde =
-    localStorage.getItem(
-        cvKey
-    );
+function afficherCV() {
+
+    const sauvegarde =
+        localStorage.getItem(
+            cvKey
+        );
 
 
-if (sauvegarde) {
+    if (!sauvegarde) {
+
+        cvContainer.innerHTML = `
+
+            <div class="empty">
+
+                <h2>
+                    Aucun CV
+                </h2>
+
+                <p>
+                    Crée ton premier CV pour commencer.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
 
 
     const cv =
@@ -410,12 +413,24 @@ if (sauvegarde) {
                     Modifier
                 </button>
 
+
+                <button
+                    class="button danger"
+                    id="deleteCV"
+                >
+                    Supprimer
+                </button>
+
             </div>
 
         </div>
 
     `;
 
+
+    // ==================================================
+    // MODIFIER
+    // ==================================================
 
     document
         .getElementById("editCV")
@@ -429,11 +444,52 @@ if (sauvegarde) {
             }
         );
 
+
+    // ==================================================
+    // SUPPRIMER
+    // ==================================================
+
+    document
+        .getElementById("deleteCV")
+        .addEventListener(
+            "click",
+            function () {
+
+                const confirmation =
+                    confirm(
+                        "Es-tu sûr de vouloir supprimer ton CV ? Cette action supprimera également ta photo."
+                    );
+
+
+                if (!confirmation) {
+
+                    return;
+
+                }
+
+
+                // Supprimer uniquement
+                // les données de ce compte
+
+                localStorage.removeItem(
+                    cvKey
+                );
+
+                localStorage.removeItem(
+                    photoKey
+                );
+
+
+                afficherCV();
+
+            }
+        );
+
 }
 
 
 // ==================================================
-// CRÉER UN NOUVEAU CV
+// CRÉER UN CV
 // ==================================================
 
 newCV.addEventListener(
@@ -464,6 +520,13 @@ logoutButton.addEventListener(
 
     }
 );
+
+
+// ==================================================
+// CHARGEMENT
+// ==================================================
+
+afficherCV();
 
 
 </script>
