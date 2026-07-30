@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CVly — Tableau de bord</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #111827;
+        }
+
+        header {
+            background: white;
+            padding: 20px 8%;
+            border-bottom: 1px solid #e5e7eb;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .user {
+            color: #6b7280;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .welcome {
+            margin-bottom: 35px;
+        }
+
+        .welcome h1 {
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #6b7280;
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .button {
+            padding: 14px 22px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .primary {
+            background: #111827;
+            color: white;
+        }
+
+        .secondary {
+            background: white;
+            border: 1px solid #d1d5db;
+        }
+
+        .cv-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cv-info h2 {
+            margin-bottom: 8px;
+        }
+
+        .cv-info p {
+            color: #6b7280;
+        }
+
+        .cv-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .empty {
+            background: white;
+            padding: 50px;
+            text-align: center;
+            border-radius: 15px;
+            color: #6b7280;
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<header>
+
+    <div class="logo">
+        CVly
+    </div>
+
+    <div class="user" id="userName">
+        Mon compte
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <div class="welcome">
+
+        <h1>
+            Mon tableau de bord
+        </h1>
+
+        <p>
+            Gère tes CV depuis cet espace.
+        </p>
+
+    </div>
+
+
+    <div class="actions">
+
+        <button
+            class="button primary"
+            id="newCV"
+        >
+            + Créer un CV
+        </button>
+
+    </div>
+
+
+    <div id="cvContainer">
+
+        <div class="empty">
+
+            <h2>
+                Aucun CV
+            </h2>
+
+            <p>
+                Crée ton premier CV pour commencer.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    const cvContainer =
+        document.getElementById("cvContainer");
+
+
+    const newCV =
+        document.getElementById("newCV");
+
+
+    const userName =
+        document.getElementById("userName");
+
+
+    // =========================
+    // NOM DU COMPTE
+    // =========================
+
+    const utilisateur =
+        localStorage.getItem("cvlyUser");
+
+    if (utilisateur) {
+
+        userName.textContent =
+            utilisateur;
+
+    }
+
+
+    // =========================
+    // VÉRIFIER LE CV
+    // =========================
+
+    const sauvegarde =
+        localStorage.getItem("cvlyCV");
+
+
+    if (sauvegarde) {
+
+        const cv =
+            JSON.parse(sauvegarde);
+
+
+        const nomComplet =
+            (
+                cv.prenom +
+                " " +
+                cv.nom
+            ).trim();
+
+
+        cvContainer.innerHTML = `
+
+            <div class="cv-card">
+
+                <div class="cv-info">
+
+                    <h2>
+                        ${nomComplet || "Mon CV"}
+                    </h2>
+
+                    <p>
+                        Modèle :
+                        ${cv.modele || "Classique"}
+                    </p>
+
+                </div>
+
+
+                <div class="cv-actions">
+
+                    <button
+                        class="button primary"
+                        id="editCV"
+                    >
+                        Modifier
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        document
+            .getElementById("editCV")
+            .addEventListener(
+                "click",
+                function () {
+
+                    window.location.href =
+                        "create.html";
+
+                }
+            );
+
+    }
+
+
+    // =========================
+    // NOUVEAU CV
+    // =========================
+
+    newCV.addEventListener(
+        "click",
+        function () {
+
+            window.location.href =
+                "create.html";
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>

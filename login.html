@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CVly — Connexion</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #111827;
+
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            width: 400px;
+            background: white;
+            padding: 40px;
+            border-radius: 18px;
+
+            box-shadow:
+                0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            text-align: center;
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 9px;
+
+            font-size: 15px;
+
+            margin-bottom: 18px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #111827;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #111827;
+            color: white;
+
+            font-size: 16px;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #374151;
+        }
+
+        .register {
+            text-align: center;
+            margin-top: 25px;
+            color: #6b7280;
+        }
+
+        .register a {
+            color: #111827;
+            font-weight: bold;
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="login-card">
+
+    <div class="logo">
+        CVly
+    </div>
+
+    <p class="subtitle">
+        Connecte-toi à ton espace
+    </p>
+
+    <form id="loginForm">
+
+        <label>Email</label>
+
+        <input
+            type="email"
+            id="email"
+            placeholder="ton@email.com"
+            required
+        >
+
+        <label>Mot de passe</label>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Ton mot de passe"
+            required
+        >
+
+        <button type="submit">
+            Se connecter
+        </button>
+
+    </form>
+
+    <p class="register">
+        Pas encore de compte ?
+        <a href="register.html">
+            Créer un compte
+        </a>
+    </p>
+
+</div>
+
+<script src="login.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CVly — Créer mon CV</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #111827;
+        }
+
+        header {
+            background: white;
+            padding: 20px 8%;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 40px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+
+        .section {
+            margin-bottom: 35px;
+        }
+
+        .section h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: #111827;
+            color: white;
+            border-radius: 10px;
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background: #374151;
+        }
+
+        /* =========================
+           APERÇU CV
+        ========================= */
+
+        #preview {
+            width: 700px;
+            min-height: 900px;
+            background: white;
+            margin: 40px auto;
+            padding: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transition: 0.3s;
+        }
+
+        #profilePhoto {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        #previewPrenom {
+            font-size: 36px;
+            margin-bottom: 8px;
+        }
+
+        #previewNom {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #preview h3 {
+            margin-top: 30px;
+            border-bottom: 2px solid #111827;
+            padding-bottom: 5px;
+        }
+
+        #preview p {
+            color: #444;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           MODÈLE CLASSIQUE
+        ========================= */
+
+        #preview.classic {
+            border-top: 8px solid #111827;
+        }
+
+        #preview.classic h3 {
+            text-transform: uppercase;
+        }
+
+        /* =========================
+           MODÈLE ÉLÉGANT
+        ========================= */
+
+        #preview.elegant {
+    font-family: Georgia, serif;
+    border-left: 8px solid #111827;
+    padding: 60px;
+}
+
+#preview.elegant #previewPrenom {
+    font-family: Georgia, serif;
+    font-size: 44px;
+    font-weight: normal;
+    letter-spacing: 2px;
+}
+
+#preview.elegant #previewNom {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    color: #777;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+}
+
+#preview.elegant h3 {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    font-weight: normal;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid #999;
+    padding-bottom: 8px;
+}
+
+        #preview.elegant h1,
+        #preview.elegant h2,
+        #preview.elegant h3 {
+            font-family: Georgia, serif;
+        }
+
+        #preview.elegant h3 {
+            border-bottom: 1px solid #777;
+        }
+
+        /* =========================
+           MODÈLE MODERNE
+        ========================= */
+
+       #preview.modern {
+    font-family: Arial, sans-serif;
+    border-top: 12px solid #111827;
+    padding: 55px;
+}
+
+#preview.modern #previewPrenom {
+    font-size: 46px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 5px;
+}
+
+#preview.modern #previewNom {
+    font-size: 20px;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    margin-bottom: 25px;
+}
+
+#preview.modern #previewEmail,
+#preview.modern #previewTelephone,
+#preview.modern #previewVille {
+    display: inline-block;
+    margin-right: 15px;
+    font-size: 14px;
+}
+
+#preview.modern h3 {
+    font-size: 16px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 3px solid #111827;
+    padding-bottom: 8px;
+    margin-top: 35px;
+}
+
+#preview.modern p {
+    line-height: 1.7;
+}
+
+        #preview.modern #previewPrenom {
+            font-size: 42px;
+        }
+
+        #preview.modern h3 {
+            border-bottom: 3px solid #111827;
+        }
+
+        /* =========================
+           IMPRESSION / PDF
+        ========================= */
+
+        @media print {
+
+            body {
+                background: white;
+            }
+
+            header,
+            .container {
+                display: none;
+            }
+
+            #preview {
+                margin: 0;
+                box-shadow: none;
+                width: 100%;
+                min-height: 100vh;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        CVly
+    </div>
+
+</header>
+
+
+<div class="container">
+
+    <h1>Crée ton CV</h1>
+
+    <p class="subtitle">
+        Remplis tes informations pour commencer.
+    </p>
+
+
+    <div class="form-card">
+
+        <!-- =========================
+             INFORMATIONS PERSONNELLES
+        ========================== -->
+
+        <div class="section">
+
+            <h2>👤 Informations personnelles</h2>
+
+            <label>Prénom</label>
+
+            <input
+                type="text"
+                id="prenom"
+                placeholder="Ex : Lucas"
+            >
+
+
+            <label>Nom</label>
+
+            <input
+                type="text"
+                id="nom"
+                placeholder="Ex : Jarrais"
+            >
+
+
+            <label>Email</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="exemple@email.com"
+            >
+
+
+            <label>Téléphone</label>
+
+            <input
+                type="tel"
+                id="telephone"
+                placeholder="06 12 34 56 78"
+            >
+
+
+            <label>Ville</label>
+
+            <input
+                type="text"
+                id="ville"
+                placeholder="Ex : Paris"
+            >
+
+
+            <label>Photo de profil</label>
+
+            <input
+                type="file"
+                id="photoInput"
+                accept="image/*"
+            >
+
+
+            <label>Modèle du CV</label>
+
+            <select id="templateSelect">
+
+                <option value="classic">
+                    Classique
+                </option>
+
+                <option value="elegant">
+                    Élégant
+                </option>
+
+                <option value="modern">
+                    Moderne
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- =========================
+             PROFIL
+        ========================== -->
+
+        <div class="section">
+
+            <h2>👤 Profil</h2>
+
+            <label>Présentation</label>
+
+            <textarea
+                id="profil"
+                placeholder="Présente-toi en quelques lignes..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- =========================
+             FORMATION
+        ========================== -->
+
+        <div class="section">
+
+            <h2>🎓 Formation</h2>
+
+            <label>Diplôme / Formation</label>
+
+            <input
+                type="text"
+                id="diplome"
+                placeholder="Ex : Bac Professionnel"
+            >
+
+
+            <label>Établissement</label>
+
+            <input
+                type="text"
+                id="etablissement"
+                placeholder="Ex : Lycée Victor Hugo"
+            >
+
+
+            <label>Année</label>
+
+            <input
+                type="text"
+                id="annee"
+                placeholder="Ex : 2024 - 2026"
+            >
+
+        </div>
+
+
+        <!-- =========================
+             EXPERIENCE
+        ========================== -->
+
+        <div class="section">
+
+            <h2>💼 Expérience professionnelle</h2>
+
+            <label>Poste</label>
+
+            <input
+                type="text"
+                id="poste"
+                placeholder="Ex : Employé polyvalent"
+            >
+
+
+            <label>Entreprise</label>
+
+            <input
+                type="text"
+                id="entreprise"
+                placeholder="Ex : Entreprise XYZ"
+            >
+
+
+            <label>Description</label>
+
+            <textarea
+                id="description"
+                placeholder="Décris tes missions..."
+            ></textarea>
+
+        </div>
+
+
+        <!-- =========================
+             COMPETENCES
+        ========================== -->
+
+        <div class="section">
+
+            <h2>🛠️ Compétences</h2>
+
+            <label>Compétences</label>
+
+            <textarea
+                id="competences"
+                placeholder="Ex : Communication, informatique, travail en équipe..."
+            ></textarea>
+
+        </div>
+
+
+        <button
+            class="button"
+            id="generateCV"
+        >
+            📄 Générer mon CV
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     APERÇU DU CV
+========================== -->
+
+<div id="preview" class="classic">
+
+    <img
+        id="profilePhoto"
+        src=""
+        alt="Photo de profil"
+        style="display:none;"
+    >
+
+
+    <h1 id="previewPrenom">
+        Ton prénom
+    </h1>
+
+
+    <p id="previewNom">
+        Ton nom
+    </p>
+
+
+    <p id="previewEmail">
+        Ton email
+    </p>
+
+
+    <p id="previewTelephone">
+        Ton téléphone
+    </p>
+
+
+    <p id="previewVille">
+        Ta ville
+    </p>
+
+
+    <hr>
+
+
+    <h3>
+        Profil
+    </h3>
+
+    <p id="previewProfil">
+        Présentez-vous en quelques lignes...
+    </p>
+
+
+    <h3>
+        Expérience
+    </h3>
+
+    <p id="previewExperience">
+        Ajoutez vos expériences professionnelles...
+    </p>
+
+
+    <h3>
+        Formation
+    </h3>
+
+    <p id="previewFormation">
+        Ajoutez votre formation...
+    </p>
+
+
+    <h3>
+        Compétences
+    </h3>
+
+    <p id="previewCompetences">
+        Ajoutez vos compétences...
+    </p>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
