@@ -1,89 +1,55 @@
 console.log("CVLY SCRIPT OK");
 
-
-// ==================================================
+// =========================
 // COMPTE CONNECTÉ
-// ==================================================
+// =========================
 
-const currentUser =
-    JSON.parse(
-        localStorage.getItem("cvlyCurrentUser")
-    );
-
+const currentUser = JSON.parse(
+    localStorage.getItem("cvlyCurrentUser")
+);
 
 if (!currentUser) {
-
-    alert("Tu dois être connecté.");
-
     window.location.href = "login.html";
-
 }
 
+// =========================
+// CLÉ UNIQUE DU COMPTE
+// =========================
 
-// ==================================================
-// IDENTIFIANTS
-// ==================================================
+const userEmail = currentUser.email.toLowerCase();
 
-const userEmail =
-    currentUser.email;
-
-const cvKey =
-    "cvlyCV_" + userEmail;
-
-const photoKey =
-    "cvlyPhoto_" + userEmail;
+const cvKey = "cvlyCV_" + userEmail;
+const photoKey = "cvlyPhoto_" + userEmail;
 
 
-// ==================================================
+// =========================
 // CHAMPS
-// ==================================================
+// =========================
 
-const cvName =
-    document.getElementById("cvName");
+const cvName = document.getElementById("cvName");
 
-const prenom =
-    document.getElementById("prenom");
+const prenom = document.getElementById("prenom");
+const nom = document.getElementById("nom");
+const email = document.getElementById("email");
+const telephone = document.getElementById("telephone");
+const ville = document.getElementById("ville");
 
-const nom =
-    document.getElementById("nom");
+const profil = document.getElementById("profil");
 
-const email =
-    document.getElementById("email");
+const diplome = document.getElementById("diplome");
+const etablissement = document.getElementById("etablissement");
+const annee = document.getElementById("annee");
 
-const telephone =
-    document.getElementById("telephone");
+const poste = document.getElementById("poste");
+const entreprise = document.getElementById("entreprise");
+const description = document.getElementById("description");
 
-const ville =
-    document.getElementById("ville");
-
-const profil =
-    document.getElementById("profil");
-
-const diplome =
-    document.getElementById("diplome");
-
-const etablissement =
-    document.getElementById("etablissement");
-
-const annee =
-    document.getElementById("annee");
-
-const poste =
-    document.getElementById("poste");
-
-const entreprise =
-    document.getElementById("entreprise");
-
-const description =
-    document.getElementById("description");
-
-const competences =
-    document.getElementById("competences");
+const competences = document.getElementById("competences");
 
 
-// ==================================================
+// =========================
 // APERÇU
-// ==================================================
+// =========================
 
 const previewPrenom =
     document.getElementById("previewPrenom");
@@ -113,20 +79,15 @@ const previewCompetences =
     document.getElementById("previewCompetences");
 
 
-// ==================================================
-// PHOTO
-// ==================================================
+// =========================
+// PHOTO + MODÈLE
+// =========================
 
 const photoInput =
     document.getElementById("photoInput");
 
 const profilePhoto =
     document.getElementById("profilePhoto");
-
-
-// ==================================================
-// MODÈLE
-// ==================================================
 
 const templateSelect =
     document.getElementById("templateSelect");
@@ -135,79 +96,69 @@ const preview =
     document.getElementById("preview");
 
 
-// ==================================================
-// SAUVEGARDE
-// ==================================================
+// =========================
+// SAUVEGARDER
+// =========================
 
 function sauvegarder() {
 
     const cv = {
 
-        cvName:
-            cvName.value,
+        cvName: cvName.value,
 
-        prenom:
-            prenom.value,
+        prenom: prenom.value,
 
-        nom:
-            nom.value,
+        nom: nom.value,
 
-        email:
-            email.value,
+        email: email.value,
 
-        telephone:
-            telephone.value,
+        telephone: telephone.value,
 
-        ville:
-            ville.value,
+        ville: ville.value,
 
-        profil:
-            profil.value,
+        profil: profil.value,
 
-        diplome:
-            diplome.value,
+        diplome: diplome.value,
 
-        etablissement:
-            etablissement.value,
+        etablissement: etablissement.value,
 
-        annee:
-            annee.value,
+        annee: annee.value,
 
-        poste:
-            poste.value,
+        poste: poste.value,
 
-        entreprise:
-            entreprise.value,
+        entreprise: entreprise.value,
 
-        description:
-            description.value,
+        description: description.value,
 
-        competences:
-            competences.value,
+        competences: competences.value,
 
-        modele:
-            templateSelect.value
+        modele: templateSelect.value
 
     };
-
 
     localStorage.setItem(
         cvKey,
         JSON.stringify(cv)
     );
 
+    console.log("CV sauvegardé :", cv);
+
 }
 
 
-// ==================================================
-// ÉCOUTEURS
-// ==================================================
+// =========================
+// NOM DU CV
+// =========================
 
 cvName.addEventListener(
     "input",
     sauvegarder
 );
 
+
+// =========================
+// INFORMATIONS
+// =========================
 
 prenom.addEventListener(
     "input",
@@ -274,6 +225,10 @@ ville.addEventListener(
 );
 
 
+// =========================
+// PROFIL
+// =========================
+
 profil.addEventListener(
     "input",
     function () {
@@ -288,50 +243,32 @@ profil.addEventListener(
 );
 
 
-// ==================================================
+// =========================
 // FORMATION
-// ==================================================
+// =========================
 
 function updateFormation() {
 
     const valeurs = [];
 
-
     if (diplome.value.trim()) {
-
-        valeurs.push(
-            diplome.value.trim()
-        );
-
+        valeurs.push(diplome.value.trim());
     }
-
 
     if (etablissement.value.trim()) {
-
-        valeurs.push(
-            etablissement.value.trim()
-        );
-
+        valeurs.push(etablissement.value.trim());
     }
-
 
     if (annee.value.trim()) {
-
-        valeurs.push(
-            annee.value.trim()
-        );
-
+        valeurs.push(annee.value.trim());
     }
 
-
     previewFormation.textContent =
-        valeurs.length
+        valeurs.length > 0
             ? valeurs.join(" — ")
             : "Ajoutez votre formation...";
 
-
     sauvegarder();
-
 }
 
 
@@ -351,50 +288,32 @@ annee.addEventListener(
 );
 
 
-// ==================================================
+// =========================
 // EXPÉRIENCE
-// ==================================================
+// =========================
 
 function updateExperience() {
 
     const valeurs = [];
 
-
     if (poste.value.trim()) {
-
-        valeurs.push(
-            poste.value.trim()
-        );
-
+        valeurs.push(poste.value.trim());
     }
-
 
     if (entreprise.value.trim()) {
-
-        valeurs.push(
-            entreprise.value.trim()
-        );
-
+        valeurs.push(entreprise.value.trim());
     }
-
 
     if (description.value.trim()) {
-
-        valeurs.push(
-            description.value.trim()
-        );
-
+        valeurs.push(description.value.trim());
     }
 
-
     previewExperience.textContent =
-        valeurs.length
+        valeurs.length > 0
             ? valeurs.join(" — ")
             : "Ajoutez vos expériences professionnelles...";
 
-
     sauvegarder();
-
 }
 
 
@@ -414,9 +333,9 @@ description.addEventListener(
 );
 
 
-// ==================================================
+// =========================
 // COMPÉTENCES
-// ==================================================
+// =========================
 
 competences.addEventListener(
     "input",
@@ -432,9 +351,9 @@ competences.addEventListener(
 );
 
 
-// ==================================================
+// =========================
 // PHOTO
-// ==================================================
+// =========================
 
 photoInput.addEventListener(
     "change",
@@ -472,9 +391,9 @@ photoInput.addEventListener(
 );
 
 
-// ==================================================
+// =========================
 // MODÈLE
-// ==================================================
+// =========================
 
 function changerModele() {
 
@@ -503,154 +422,76 @@ templateSelect.addEventListener(
 );
 
 
-// ==================================================
-// VIDER LE CV
-// ==================================================
-
-function viderCV() {
-
-    cvName.value = "";
-
-    prenom.value =
-        currentUser.firstName || "";
-
-    nom.value = "";
-
-    email.value = "";
-
-    telephone.value = "";
-
-    ville.value = "";
-
-    profil.value = "";
-
-    diplome.value = "";
-
-    etablissement.value = "";
-
-    annee.value = "";
-
-    poste.value = "";
-
-    entreprise.value = "";
-
-    description.value = "";
-
-    competences.value = "";
-
-
-    previewPrenom.textContent =
-        prenom.value || "Ton prénom";
-
-    previewNom.textContent =
-        "Ton nom";
-
-    previewEmail.textContent =
-        "Ton email";
-
-    previewTelephone.textContent =
-        "Ton téléphone";
-
-    previewVille.textContent =
-        "Ta ville";
-
-    previewProfil.textContent =
-        "Présentez-vous en quelques lignes...";
-
-    previewFormation.textContent =
-        "Ajoutez votre formation...";
-
-    previewExperience.textContent =
-        "Ajoutez vos expériences professionnelles...";
-
-    previewCompetences.textContent =
-        "Ajoutez vos compétences...";
-
-
-    profilePhoto.src = "";
-
-    profilePhoto.style.display =
-        "none";
-
-
-    templateSelect.value =
-        "classic";
-
-    changerModele();
-
-}
-
-
-// ==================================================
-// CHARGER
-// ==================================================
+// =========================
+// CHARGER LE CV
+// =========================
 
 function chargerCV() {
 
     const sauvegarde =
         localStorage.getItem(cvKey);
 
+    if (sauvegarde) {
 
-    if (!sauvegarde) {
+        const cv =
+            JSON.parse(sauvegarde);
 
-        viderCV();
+        cvName.value =
+            cv.cvName || "";
 
-        return;
+        prenom.value =
+            cv.prenom || "";
+
+        nom.value =
+            cv.nom || "";
+
+        email.value =
+            cv.email || "";
+
+        telephone.value =
+            cv.telephone || "";
+
+        ville.value =
+            cv.ville || "";
+
+        profil.value =
+            cv.profil || "";
+
+        diplome.value =
+            cv.diplome || "";
+
+        etablissement.value =
+            cv.etablissement || "";
+
+        annee.value =
+            cv.annee || "";
+
+        poste.value =
+            cv.poste || "";
+
+        entreprise.value =
+            cv.entreprise || "";
+
+        description.value =
+            cv.description || "";
+
+        competences.value =
+            cv.competences || "";
+
+        templateSelect.value =
+            cv.modele || "classic";
+
+    } else {
+
+        // Nouveau CV
+        cvName.value = "";
+
+        prenom.value =
+            currentUser.firstName || "";
 
     }
 
-
-    const cv =
-        JSON.parse(sauvegarde);
-
-
-    cvName.value =
-        cv.cvName || "";
-
-
-    prenom.value =
-        cv.prenom || "";
-
-    nom.value =
-        cv.nom || "";
-
-    email.value =
-        cv.email || "";
-
-    telephone.value =
-        cv.telephone || "";
-
-    ville.value =
-        cv.ville || "";
-
-
-    profil.value =
-        cv.profil || "";
-
-
-    diplome.value =
-        cv.diplome || "";
-
-    etablissement.value =
-        cv.etablissement || "";
-
-    annee.value =
-        cv.annee || "";
-
-
-    poste.value =
-        cv.poste || "";
-
-    entreprise.value =
-        cv.entreprise || "";
-
-    description.value =
-        cv.description || "";
-
-
-    competences.value =
-        cv.competences || "";
-
+    // Mise à jour de l'aperçu
 
     previewPrenom.textContent =
         prenom.value || "Ton prénom";
@@ -671,30 +512,21 @@ function chargerCV() {
         profil.value ||
         "Présentez-vous en quelques lignes...";
 
-
     updateFormation();
 
     updateExperience();
-
 
     previewCompetences.textContent =
         competences.value ||
         "Ajoutez vos compétences...";
 
+    changerModele();
 
-    if (cv.modele) {
 
-        templateSelect.value =
-            cv.modele;
-
-        changerModele();
-
-    }
-
+    // Photo
 
     const photo =
         localStorage.getItem(photoKey);
-
 
     if (photo) {
 
@@ -704,34 +536,24 @@ function chargerCV() {
         profilePhoto.style.display =
             "block";
 
-    } else {
-
-        profilePhoto.src = "";
-
-        profilePhoto.style.display =
-            "none";
-
     }
 
 }
 
 
-// ==================================================
+// =========================
 // CHARGEMENT
-// ==================================================
+// =========================
 
 chargerCV();
 
 
-// ==================================================
+// =========================
 // PDF
-// ==================================================
+// =========================
 
 const generateCV =
-    document.getElementById(
-        "generateCV"
-    );
-
+    document.getElementById("generateCV");
 
 generateCV.addEventListener(
     "click",
@@ -766,6 +588,6 @@ generateCV.addEventListener(
 
 
 console.log(
-    "✅ CVly : CV chargé pour " +
+    "✅ CVly prêt pour : " +
     currentUser.email
 );
