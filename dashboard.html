@@ -3,240 +3,255 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>CVly — Tableau de bord</title>
+    <title>CVly — Tableau de bord</title>
 
-<style>
+    <style>
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-body {
-    font-family: Arial, sans-serif;
-    background: #f5f7fb;
-    color: #111827;
-}
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #111827;
+        }
 
-header {
-    background: white;
-    padding: 20px 8%;
-    border-bottom: 1px solid #e5e7eb;
+        header {
+            background: white;
+            padding: 20px 8%;
+            border-bottom: 1px solid #e5e7eb;
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-.logo {
-    font-size: 26px;
-    font-weight: bold;
-}
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+        }
 
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-.user {
-    color: #6b7280;
-}
+        .user {
+            color: #6b7280;
+        }
 
-.logout {
-    padding: 9px 15px;
-    border: 1px solid #d1d5db;
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-}
+        .logout {
+            padding: 9px 15px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
 
-.container {
-    max-width: 1000px;
-    margin: 50px auto;
-    padding: 20px;
-}
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+        }
 
-.welcome {
-    margin-bottom: 35px;
-}
+        .welcome {
+            margin-bottom: 35px;
+        }
 
-.welcome h1 {
-    margin-bottom: 8px;
-}
+        .welcome h1 {
+            margin-bottom: 8px;
+        }
 
-.welcome p {
-    color: #6b7280;
-}
+        .welcome p {
+            color: #6b7280;
+        }
 
-.actions {
-    margin-bottom: 40px;
-}
+        .actions {
+            margin-bottom: 40px;
+        }
 
-.button {
-    padding: 13px 20px;
-    border: none;
-    border-radius: 9px;
-    cursor: pointer;
-    font-size: 15px;
-}
+        .button {
+            padding: 13px 20px;
+            border: none;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 15px;
+        }
 
-.primary {
-    background: #111827;
-    color: white;
-}
+        .primary {
+            background: #111827;
+            color: white;
+        }
 
-.danger {
-    background: #fee2e2;
-    color: #991b1b;
-}
+        .danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
 
-.cv-card {
-    background: white;
-    border-radius: 15px;
-    padding: 25px;
+        .cv-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
 
-    box-shadow:
-        0 5px 20px rgba(0,0,0,0.05);
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.05);
 
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
 
-.cv-info h2 {
-    margin-bottom: 8px;
-}
+        .cv-info h2 {
+            margin-bottom: 8px;
+        }
 
-.cv-info p {
-    color: #6b7280;
-}
+        .cv-info p {
+            color: #6b7280;
+            margin-bottom: 5px;
+        }
 
-.cv-actions {
-    display: flex;
-    gap: 10px;
-}
+        .cv-actions {
+            display: flex;
+            gap: 10px;
+        }
 
-.empty {
-    background: white;
-    padding: 50px;
-    text-align: center;
-    border-radius: 15px;
-    color: #6b7280;
-}
+        .empty {
+            background: white;
+            padding: 50px;
+            text-align: center;
+            border-radius: 15px;
+            color: #6b7280;
+        }
 
-.empty h2 {
-    color: #111827;
-    margin-bottom: 10px;
-}
+        .empty h2 {
+            color: #111827;
+            margin-bottom: 10px;
+        }
 
-@media (max-width: 700px) {
+        @media (max-width: 700px) {
 
-    .cv-card {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+            .cv-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
 
-    .cv-actions {
-        width: 100%;
-    }
+            .cv-actions {
+                width: 100%;
+            }
 
-    .cv-actions button {
-        flex: 1;
-    }
+            .cv-actions button {
+                flex: 1;
+            }
 
-    .user {
-        display: none;
-    }
+            .user {
+                display: none;
+            }
 
-}
+        }
 
-</style>
+    </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
-<div class="logo">
-    CVly
-</div>
+    <div class="logo">
+        CVly
+    </div>
 
-<div class="header-right">
 
-<div
-    class="user"
-    id="userName"
->
-    Mon compte
-</div>
+    <div class="header-right">
 
-<button
-    class="logout"
-    id="logoutButton"
->
-    Se déconnecter
-</button>
+        <div
+            class="user"
+            id="userName"
+        >
+            Mon compte
+        </div>
 
-</div>
+
+        <button
+            class="logout"
+            id="logoutButton"
+        >
+            Se déconnecter
+        </button>
+
+    </div>
 
 </header>
 
 
 <div class="container">
 
-<div class="welcome">
 
-<h1>
-    Mon tableau de bord
-</h1>
+    <div class="welcome">
 
-<p>
-    Gère tes CV depuis cet espace.
-</p>
+        <h1>
+            Mon tableau de bord
+        </h1>
 
-</div>
+        <p>
+            Gère tes CV depuis cet espace.
+        </p>
 
-
-<div class="actions">
-
-<button
-    class="button primary"
-    id="newCV"
->
-    + Créer un CV
-</button>
-
-</div>
+    </div>
 
 
-<div id="cvContainer">
+    <div class="actions">
 
-<div class="empty">
+        <button
+            class="button primary"
+            id="newCV"
+        >
+            + Créer un CV
+        </button>
 
-<h2>
-    Aucun CV
-</h2>
+    </div>
 
-<p>
-    Crée ton premier CV pour commencer.
-</p>
 
-</div>
+    <div id="cvContainer">
 
-</div>
+        <div class="empty">
+
+            <h2>
+                Aucun CV
+            </h2>
+
+            <p>
+                Crée ton premier CV pour commencer.
+            </p>
+
+        </div>
+
+    </div>
+
 
 </div>
 
 
 <script>
+
+
+// ==================================================
+// UTILISATEUR CONNECTÉ
+// ==================================================
 
 const currentUser =
     JSON.parse(
@@ -253,6 +268,10 @@ if (!currentUser) {
 
 }
 
+
+// ==================================================
+// ÉLÉMENTS
+// ==================================================
 
 const userName =
     document.getElementById(
@@ -275,28 +294,68 @@ const logoutButton =
     );
 
 
+// ==================================================
+// INFORMATIONS DU COMPTE
+// ==================================================
+
 userName.textContent =
     currentUser.firstName +
     " • " +
     currentUser.email;
 
 
+// ==================================================
+// CLÉS DE SAUVEGARDE
+// ==================================================
+
+// IMPORTANT :
+// C'est exactement la même clé
+// que dans script.js.
+
+const userEmail =
+    currentUser.email
+        .trim()
+        .toLowerCase();
+
+
 const cvKey =
     "cvlyCV_" +
-    currentUser.email;
+    userEmail;
+
 
 const photoKey =
     "cvlyPhoto_" +
-    currentUser.email;
+    userEmail;
 
+
+// ==================================================
+// AFFICHER LE CV
+// ==================================================
 
 function afficherCV() {
+
 
     const sauvegarde =
         localStorage.getItem(
             cvKey
         );
 
+
+    // DEBUG
+    console.log(
+        "Clé recherchée :",
+        cvKey
+    );
+
+    console.log(
+        "CV trouvé :",
+        sauvegarde
+    );
+
+
+    // =========================
+    // AUCUN CV
+    // =========================
 
     if (!sauvegarde) {
 
@@ -309,7 +368,8 @@ function afficherCV() {
                 </h2>
 
                 <p>
-                    Crée ton premier CV pour commencer.
+                    Crée ton premier CV
+                    pour commencer.
                 </p>
 
             </div>
@@ -321,41 +381,94 @@ function afficherCV() {
     }
 
 
-    const cv =
-        JSON.parse(
-            sauvegarde
+    // =========================
+    // RÉCUPÉRER LE CV
+    // =========================
+
+    let cv;
+
+
+    try {
+
+        cv =
+            JSON.parse(
+                sauvegarde
+            );
+
+    } catch (error) {
+
+        console.error(
+            "Erreur lors du chargement du CV :",
+            error
         );
+
+        return;
+
+    }
+
+
+    // =========================
+    // AFFICHAGE
+    // =========================
+
+    const nomCV =
+        cv.cvName ||
+        "Mon CV";
+
+
+    const prenom =
+        cv.prenom ||
+        "";
+
+
+    const nom =
+        cv.nom ||
+        "";
+
+
+    const nomComplet =
+        (
+            prenom +
+            " " +
+            nom
+        ).trim();
+
+
+    const modele =
+        cv.modele ||
+        "classic";
 
 
     cvContainer.innerHTML = `
 
         <div class="cv-card">
 
+
             <div class="cv-info">
 
                 <h2>
-                    ${cv.cvName || "Mon CV"}
+                    📄 ${nomCV}
                 </h2>
+
 
                 <p>
                     ${
-                        cv.prenom || ""
-                    }
-                    ${
-                        cv.nom || ""
+                        nomComplet ||
+                        "CV sans nom"
                     }
                 </p>
 
+
                 <p>
                     Modèle :
-                    ${
-                        cv.modele || "classic"
-                    }
+                    ${modele}
                 </p>
 
             </div>
 
+
             <div class="cv-actions">
+
 
                 <button
                     class="button primary"
@@ -364,6 +477,7 @@ function afficherCV() {
                     Modifier
                 </button>
 
+
                 <button
                     class="button danger"
                     id="deleteCV"
@@ -371,59 +485,89 @@ function afficherCV() {
                     Supprimer
                 </button>
 
+
             </div>
+
 
         </div>
 
     `;
 
 
-    document
-        .getElementById("editCV")
-        .addEventListener(
-            "click",
-            function () {
+    // ==================================================
+    // MODIFIER
+    // ==================================================
 
-                window.location.href =
-                    "create.html";
-
-            }
+    const editCV =
+        document.getElementById(
+            "editCV"
         );
 
 
-    document
-        .getElementById("deleteCV")
-        .addEventListener(
-            "click",
-            function () {
+    editCV.addEventListener(
+        "click",
+        function () {
 
-                const confirmation =
-                    confirm(
-                        "Supprimer ce CV et sa photo ?"
-                    );
+            window.location.href =
+                "create.html";
 
-
-                if (!confirmation) {
-                    return;
-                }
+        }
+    );
 
 
-                localStorage.removeItem(
-                    cvKey
-                );
+    // ==================================================
+    // SUPPRIMER
+    // ==================================================
 
-                localStorage.removeItem(
-                    photoKey
-                );
-
-
-                afficherCV();
-
-            }
+    const deleteCV =
+        document.getElementById(
+            "deleteCV"
         );
+
+
+    deleteCV.addEventListener(
+        "click",
+        function () {
+
+
+            const confirmation =
+                confirm(
+                    "Voulez-vous vraiment supprimer ce CV ?"
+                );
+
+
+            if (!confirmation) {
+                return;
+            }
+
+
+            // Supprimer le CV
+
+            localStorage.removeItem(
+                cvKey
+            );
+
+
+            // Supprimer la photo
+
+            localStorage.removeItem(
+                photoKey
+            );
+
+
+            // Rafraîchir
+
+            afficherCV();
+
+        }
+    );
 
 }
 
+
+// ==================================================
+// CRÉER UN CV
+// ==================================================
 
 newCV.addEventListener(
     "click",
@@ -436,13 +580,19 @@ newCV.addEventListener(
 );
 
 
+// ==================================================
+// DÉCONNEXION
+// ==================================================
+
 logoutButton.addEventListener(
     "click",
     function () {
 
+
         localStorage.removeItem(
             "cvlyCurrentUser"
         );
+
 
         window.location.href =
             "index.html";
@@ -451,9 +601,19 @@ logoutButton.addEventListener(
 );
 
 
+// ==================================================
+// DÉMARRAGE
+// ==================================================
+
 afficherCV();
 
+
+console.log(
+    "✅ Dashboard CVly chargé"
+);
+
 </script>
+
 
 </body>
 
