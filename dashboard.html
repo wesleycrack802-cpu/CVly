@@ -29,7 +29,9 @@
         header {
             background: white;
             padding: 20px 8%;
-            border-bottom: 1px solid #e5e7eb;
+
+            border-bottom:
+                1px solid #e5e7eb;
 
             display: flex;
             justify-content: space-between;
@@ -41,13 +43,37 @@
             font-weight: bold;
         }
 
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .user {
             color: #6b7280;
         }
 
+        .logout {
+            padding: 9px 15px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+
+            background: white;
+            cursor: pointer;
+
+            font-size: 14px;
+        }
+
+        .logout:hover {
+            background: #f3f4f6;
+        }
+
         .container {
             max-width: 1000px;
+
             margin: 50px auto;
+
             padding: 20px;
         }
 
@@ -65,36 +91,49 @@
 
         .actions {
             display: flex;
+
             gap: 15px;
+
             margin-bottom: 40px;
         }
 
         .button {
             padding: 14px 22px;
+
             border: none;
+
             border-radius: 10px;
+
             cursor: pointer;
+
             font-size: 16px;
         }
 
         .primary {
             background: #111827;
+
             color: white;
         }
 
-        .secondary {
-            background: white;
-            border: 1px solid #d1d5db;
+        .primary:hover {
+            background: #1f2937;
         }
 
         .cv-card {
             background: white;
+
             border-radius: 15px;
+
             padding: 25px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.05);
 
             display: flex;
-            justify-content: space-between;
+
+            justify-content:
+                space-between;
+
             align-items: center;
         }
 
@@ -108,15 +147,54 @@
 
         .cv-actions {
             display: flex;
+
             gap: 10px;
         }
 
         .empty {
             background: white;
+
             padding: 50px;
+
             text-align: center;
+
             border-radius: 15px;
+
             color: #6b7280;
+        }
+
+        .empty h2 {
+            color: #111827;
+
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 18px 5%;
+            }
+
+            .container {
+                margin: 30px auto;
+            }
+
+            .cv-card {
+                flex-direction: column;
+
+                align-items: flex-start;
+
+                gap: 20px;
+            }
+
+            .header-right {
+                gap: 8px;
+            }
+
+            .user {
+                display: none;
+            }
+
         }
 
     </style>
@@ -126,20 +204,38 @@
 
 <body>
 
+
 <header>
 
     <div class="logo">
         CVly
     </div>
 
-    <div class="user" id="userName">
-        Mon compte
+
+    <div class="header-right">
+
+        <div
+            class="user"
+            id="userName"
+        >
+            Mon compte
+        </div>
+
+
+        <button
+            class="logout"
+            id="logoutButton"
+        >
+            Se déconnecter
+        </button>
+
     </div>
 
 </header>
 
 
 <div class="container">
+
 
     <div class="welcome">
 
@@ -182,122 +278,193 @@
 
     </div>
 
+
 </div>
 
 
 <script>
 
-    const cvContainer =
-        document.getElementById("cvContainer");
+
+// ==================================================
+// UTILISATEUR CONNECTÉ
+// ==================================================
+
+const currentUser =
+    JSON.parse(
+        localStorage.getItem(
+            "cvlyCurrentUser"
+        )
+    );
 
 
-    const newCV =
-        document.getElementById("newCV");
+// ==================================================
+// PROTECTION
+// ==================================================
+
+if (!currentUser) {
+
+    window.location.href =
+        "login.html";
+
+}
 
 
-    const userName =
-        document.getElementById("userName");
+// ==================================================
+// ÉLÉMENTS
+// ==================================================
+
+const cvContainer =
+    document.getElementById(
+        "cvContainer"
+    );
 
 
-    // =========================
-    // NOM DU COMPTE
-    // =========================
-
-    const utilisateur =
-        localStorage.getItem("cvlyUser");
-
-    if (utilisateur) {
-
-        userName.textContent =
-            utilisateur;
-
-    }
+const newCV =
+    document.getElementById(
+        "newCV"
+    );
 
 
-    // =========================
-    // VÉRIFIER LE CV
-    // =========================
-
-    const sauvegarde =
-        localStorage.getItem("cvlyCV");
+const userName =
+    document.getElementById(
+        "userName"
+    );
 
 
-    if (sauvegarde) {
-
-        const cv =
-            JSON.parse(sauvegarde);
-
-
-        const nomComplet =
-            (
-                cv.prenom +
-                " " +
-                cv.nom
-            ).trim();
+const logoutButton =
+    document.getElementById(
+        "logoutButton"
+    );
 
 
-        cvContainer.innerHTML = `
+// ==================================================
+// AFFICHER LE COMPTE
+// ==================================================
 
-            <div class="cv-card">
-
-                <div class="cv-info">
-
-                    <h2>
-                        ${nomComplet || "Mon CV"}
-                    </h2>
-
-                    <p>
-                        Modèle :
-                        ${cv.modele || "Classique"}
-                    </p>
-
-                </div>
+userName.textContent =
+    currentUser.firstName +
+    " • " +
+    currentUser.email;
 
 
-                <div class="cv-actions">
+// ==================================================
+// CLÉ DU CV
+// ==================================================
 
-                    <button
-                        class="button primary"
-                        id="editCV"
-                    >
-                        Modifier
-                    </button>
+const cvKey =
+    "cvlyCV_" +
+    currentUser.email;
 
-                </div>
+
+// ==================================================
+// RÉCUPÉRER LE CV
+// ==================================================
+
+const sauvegarde =
+    localStorage.getItem(
+        cvKey
+    );
+
+
+if (sauvegarde) {
+
+
+    const cv =
+        JSON.parse(
+            sauvegarde
+        );
+
+
+    const nomComplet =
+        (
+            cv.prenom +
+            " " +
+            cv.nom
+        ).trim();
+
+
+    cvContainer.innerHTML = `
+
+        <div class="cv-card">
+
+            <div class="cv-info">
+
+                <h2>
+                    ${nomComplet || "Mon CV"}
+                </h2>
+
+                <p>
+                    Modèle :
+                    ${cv.modele || "classic"}
+                </p>
 
             </div>
 
-        `;
+
+            <div class="cv-actions">
+
+                <button
+                    class="button primary"
+                    id="editCV"
+                >
+                    Modifier
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
 
 
-        document
-            .getElementById("editCV")
-            .addEventListener(
-                "click",
-                function () {
+    document
+        .getElementById("editCV")
+        .addEventListener(
+            "click",
+            function () {
 
-                    window.location.href =
-                        "create.html";
+                window.location.href =
+                    "create.html";
 
-                }
-            );
+            }
+        );
+
+}
+
+
+// ==================================================
+// CRÉER UN NOUVEAU CV
+// ==================================================
+
+newCV.addEventListener(
+    "click",
+    function () {
+
+        window.location.href =
+            "create.html";
 
     }
+);
 
 
-    // =========================
-    // NOUVEAU CV
-    // =========================
+// ==================================================
+// DÉCONNEXION
+// ==================================================
 
-    newCV.addEventListener(
-        "click",
-        function () {
+logoutButton.addEventListener(
+    "click",
+    function () {
 
-            window.location.href =
-                "create.html";
+        localStorage.removeItem(
+            "cvlyCurrentUser"
+        );
 
-        }
-    );
+        window.location.href =
+            "index.html";
+
+    }
+);
+
 
 </script>
 
