@@ -9,32 +9,37 @@ loginForm.addEventListener("submit", function (event) {
 
     event.preventDefault();
 
-    const emailValue = email.value.trim().toLowerCase();
-    const passwordValue = password.value;
+    const emailValue =
+        email.value.trim().toLowerCase();
 
-    // Récupérer les comptes enregistrés
+    const passwordValue =
+        password.value;
+
     const users =
-        JSON.parse(localStorage.getItem("cvlyUsers")) || [];
+        JSON.parse(
+            localStorage.getItem("cvlyUsers")
+        ) || [];
 
-    // Chercher le compte
-    const user = users.find(function (user) {
+    const user =
+        users.find(function (user) {
 
-        return (
-            user.email === emailValue &&
-            user.password === passwordValue
-        );
+            return (
+                user.email === emailValue &&
+                user.password === passwordValue
+            );
 
-    });
+        });
 
-    // Mauvais identifiants
     if (!user) {
 
-        alert("Email ou mot de passe incorrect.");
+        alert(
+            "Email ou mot de passe incorrect."
+        );
 
         return;
     }
 
-    // Connexion réussie
+    // Enregistrer le compte actuellement connecté
     localStorage.setItem(
         "cvlyCurrentUser",
         JSON.stringify({
@@ -43,7 +48,7 @@ loginForm.addEventListener("submit", function (event) {
         })
     );
 
-    // Aller vers le créateur de CV
-    window.location.href = "create.html";
+    window.location.href =
+        "dashboard.html";
 
 });

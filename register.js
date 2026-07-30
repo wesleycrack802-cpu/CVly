@@ -1,89 +1,155 @@
 console.log("REGISTER OK");
 
-const registerForm = document.getElementById("registerForm");
+const registerForm =
+    document.getElementById("registerForm");
 
-const firstName = document.getElementById("firstName");
-const email = document.getElementById("email");
-const password = document.getElementById("password");
-const confirmPassword = document.getElementById("confirmPassword");
+const firstName =
+    document.getElementById("firstName");
 
-const message = document.getElementById("message");
+const email =
+    document.getElementById("email");
 
-registerForm.addEventListener("submit", function (event) {
+const password =
+    document.getElementById("password");
 
-    event.preventDefault();
+const confirmPassword =
+    document.getElementById("confirmPassword");
 
-    const prenom = firstName.value.trim();
-    const emailValue = email.value.trim().toLowerCase();
-    const passwordValue = password.value;
-    const confirmPasswordValue = confirmPassword.value;
+const message =
+    document.getElementById("message");
 
-    // Vérifier le mot de passe
-    if (passwordValue.length < 6) {
 
-        message.textContent =
-            "Le mot de passe doit contenir au moins 6 caractères.";
+registerForm.addEventListener(
+    "submit",
+    function (event) {
 
-        return;
-    }
+        event.preventDefault();
 
-    // Vérifier les deux mots de passe
-    if (passwordValue !== confirmPasswordValue) {
+        const prenom =
+            firstName.value.trim();
 
-        message.textContent =
-            "Les mots de passe ne correspondent pas.";
+        const emailValue =
+            email.value.trim().toLowerCase();
 
-        return;
-    }
+        const passwordValue =
+            password.value;
 
-    // Récupérer les utilisateurs existants
-    const users =
-        JSON.parse(localStorage.getItem("cvlyUsers")) || [];
+        const confirmPasswordValue =
+            confirmPassword.value;
 
-    // Vérifier si l'email existe déjà
-    const existingUser =
-        users.find(user => user.email === emailValue);
 
-    if (existingUser) {
+        // =========================
+        // MOT DE PASSE
+        // =========================
 
-        message.textContent =
-            "Un compte existe déjà avec cet email.";
+        if (passwordValue.length < 6) {
 
-        return;
-    }
+            message.textContent =
+                "Le mot de passe doit contenir au moins 6 caractères.";
 
-    // Créer le compte
-    const newUser = {
-        firstName: prenom,
-        email: emailValue,
-        password: passwordValue
-    };
+            return;
+        }
 
-    users.push(newUser);
 
-    // Sauvegarder
-    localStorage.setItem(
-        "cvlyUsers",
-        JSON.stringify(users)
-    );
+        // =========================
+        // CONFIRMATION
+        // =========================
 
-    // Connecter automatiquement l'utilisateur
-    localStorage.setItem(
-        "cvlyCurrentUser",
-        JSON.stringify({
+        if (
+            passwordValue !==
+            confirmPasswordValue
+        ) {
+
+            message.textContent =
+                "Les mots de passe ne correspondent pas.";
+
+            return;
+        }
+
+
+        // =========================
+        // UTILISATEURS
+        // =========================
+
+        const users =
+            JSON.parse(
+                localStorage.getItem("cvlyUsers")
+            ) || [];
+
+
+        // =========================
+        // EMAIL EXISTANT
+        // =========================
+
+        const existingUser =
+            users.find(
+                user =>
+                    user.email === emailValue
+            );
+
+
+        if (existingUser) {
+
+            message.textContent =
+                "Un compte existe déjà avec cet email.";
+
+            return;
+        }
+
+
+        // =========================
+        // CRÉER LE COMPTE
+        // =========================
+
+        const newUser = {
+
             firstName: prenom,
-            email: emailValue
-        })
-    );
 
-    message.textContent =
-        "Compte créé avec succès !";
+            email: emailValue,
 
-    // Redirection
-    setTimeout(function () {
+            password: passwordValue
 
-        window.location.href = "create.html";
+        };
 
-    }, 1000);
 
-});
+        users.push(newUser);
+
+
+        localStorage.setItem(
+            "cvlyUsers",
+            JSON.stringify(users)
+        );
+
+
+        // =========================
+        // CONNECTER AUTOMATIQUEMENT
+        // =========================
+
+        localStorage.setItem(
+            "cvlyCurrentUser",
+            JSON.stringify({
+
+                firstName: prenom,
+
+                email: emailValue
+
+            })
+        );
+
+
+        message.textContent =
+            "Compte créé avec succès !";
+
+
+        setTimeout(
+            function () {
+
+                window.location.href =
+                    "dashboard.html";
+
+            },
+            700
+        );
+
+    }
+);
