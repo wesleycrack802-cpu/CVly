@@ -102,10 +102,6 @@
             background: #374151;
         }
 
-        /* =========================
-           APERÇU CV
-        ========================= */
-
         #preview {
             width: 700px;
             min-height: 900px;
@@ -145,10 +141,6 @@
             line-height: 1.5;
         }
 
-        /* =========================
-           MODÈLE CLASSIQUE
-        ========================= */
-
         #preview.classic {
             border-top: 8px solid #111827;
         }
@@ -157,109 +149,79 @@
             text-transform: uppercase;
         }
 
-        /* =========================
-           MODÈLE ÉLÉGANT
-        ========================= */
-
         #preview.elegant {
-    font-family: Georgia, serif;
-    border-left: 8px solid #111827;
-    padding: 60px;
-}
+            font-family: Georgia, serif;
+            border-left: 8px solid #111827;
+            padding: 60px;
+        }
 
-#preview.elegant #previewPrenom {
-    font-family: Georgia, serif;
-    font-size: 44px;
-    font-weight: normal;
-    letter-spacing: 2px;
-}
+        #preview.elegant #previewPrenom {
+            font-family: Georgia, serif;
+            font-size: 44px;
+            font-weight: normal;
+            letter-spacing: 2px;
+        }
 
-#preview.elegant #previewNom {
-    font-family: Georgia, serif;
-    font-size: 22px;
-    color: #777;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-}
+        #preview.elegant #previewNom {
+            font-family: Georgia, serif;
+            font-size: 22px;
+            color: #777;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
 
-#preview.elegant h3 {
-    font-family: Georgia, serif;
-    font-size: 18px;
-    font-weight: normal;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    border-bottom: 1px solid #999;
-    padding-bottom: 8px;
-}
-
-        #preview.elegant h1,
-        #preview.elegant h2,
         #preview.elegant h3 {
             font-family: Georgia, serif;
+            font-size: 18px;
+            font-weight: normal;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #999;
+            padding-bottom: 8px;
         }
 
-        #preview.elegant h3 {
-            border-bottom: 1px solid #777;
+        #preview.modern {
+            font-family: Arial, sans-serif;
+            border-top: 12px solid #111827;
+            padding: 55px;
         }
-
-        /* =========================
-           MODÈLE MODERNE
-        ========================= */
-
-       #preview.modern {
-    font-family: Arial, sans-serif;
-    border-top: 12px solid #111827;
-    padding: 55px;
-}
-
-#preview.modern #previewPrenom {
-    font-size: 46px;
-    font-weight: 800;
-    letter-spacing: -1px;
-    margin-bottom: 5px;
-}
-
-#preview.modern #previewNom {
-    font-size: 20px;
-    color: #6b7280;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    margin-bottom: 25px;
-}
-
-#preview.modern #previewEmail,
-#preview.modern #previewTelephone,
-#preview.modern #previewVille {
-    display: inline-block;
-    margin-right: 15px;
-    font-size: 14px;
-}
-
-#preview.modern h3 {
-    font-size: 16px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    border-bottom: 3px solid #111827;
-    padding-bottom: 8px;
-    margin-top: 35px;
-}
-
-#preview.modern p {
-    line-height: 1.7;
-}
 
         #preview.modern #previewPrenom {
-            font-size: 42px;
+            font-size: 46px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+        }
+
+        #preview.modern #previewNom {
+            font-size: 20px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-bottom: 25px;
+        }
+
+        #preview.modern #previewEmail,
+        #preview.modern #previewTelephone,
+        #preview.modern #previewVille {
+            display: inline-block;
+            margin-right: 15px;
+            font-size: 14px;
         }
 
         #preview.modern h3 {
+            font-size: 16px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             border-bottom: 3px solid #111827;
+            padding-bottom: 8px;
+            margin-top: 35px;
         }
 
-        /* =========================
-           IMPRESSION / PDF
-        ========================= */
+        #preview.modern p {
+            line-height: 1.7;
+        }
 
         @media print {
 
@@ -307,6 +269,28 @@
 
     <div class="form-card">
 
+
+        <!-- =========================
+             NOM DU CV
+        ========================== -->
+
+        <div class="section">
+
+            <h2>📄 Mon CV</h2>
+
+            <label>
+                Nom du CV
+            </label>
+
+            <input
+                type="text"
+                id="cvName"
+                placeholder="Ex : CV Alternance 2026"
+            >
+
+        </div>
+
+
         <!-- =========================
              INFORMATIONS PERSONNELLES
         ========================== -->
@@ -323,7 +307,6 @@
                 placeholder="Ex : Lucas"
             >
 
-
             <label>Nom</label>
 
             <input
@@ -331,7 +314,6 @@
                 id="nom"
                 placeholder="Ex : Jarrais"
             >
-
 
             <label>Email</label>
 
@@ -341,7 +323,6 @@
                 placeholder="exemple@email.com"
             >
 
-
             <label>Téléphone</label>
 
             <input
@@ -349,7 +330,6 @@
                 id="telephone"
                 placeholder="06 12 34 56 78"
             >
-
 
             <label>Ville</label>
 
@@ -359,7 +339,6 @@
                 placeholder="Ex : Paris"
             >
 
-
             <label>Photo de profil</label>
 
             <input
@@ -367,7 +346,6 @@
                 id="photoInput"
                 accept="image/*"
             >
-
 
             <label>Modèle du CV</label>
 
@@ -390,9 +368,7 @@
         </div>
 
 
-        <!-- =========================
-             PROFIL
-        ========================== -->
+        <!-- PROFIL -->
 
         <div class="section">
 
@@ -408,9 +384,7 @@
         </div>
 
 
-        <!-- =========================
-             FORMATION
-        ========================== -->
+        <!-- FORMATION -->
 
         <div class="section">
 
@@ -424,7 +398,6 @@
                 placeholder="Ex : Bac Professionnel"
             >
 
-
             <label>Établissement</label>
 
             <input
@@ -432,7 +405,6 @@
                 id="etablissement"
                 placeholder="Ex : Lycée Victor Hugo"
             >
-
 
             <label>Année</label>
 
@@ -445,9 +417,7 @@
         </div>
 
 
-        <!-- =========================
-             EXPERIENCE
-        ========================== -->
+        <!-- EXPÉRIENCE -->
 
         <div class="section">
 
@@ -461,7 +431,6 @@
                 placeholder="Ex : Employé polyvalent"
             >
 
-
             <label>Entreprise</label>
 
             <input
@@ -469,7 +438,6 @@
                 id="entreprise"
                 placeholder="Ex : Entreprise XYZ"
             >
-
 
             <label>Description</label>
 
@@ -481,9 +449,7 @@
         </div>
 
 
-        <!-- =========================
-             COMPETENCES
-        ========================== -->
+        <!-- COMPÉTENCES -->
 
         <div class="section">
 
@@ -511,9 +477,7 @@
 </div>
 
 
-<!-- =========================
-     APERÇU DU CV
-========================== -->
+<!-- APERÇU -->
 
 <div id="preview" class="classic">
 
@@ -524,65 +488,47 @@
         style="display:none;"
     >
 
-
     <h1 id="previewPrenom">
         Ton prénom
     </h1>
-
 
     <p id="previewNom">
         Ton nom
     </p>
 
-
     <p id="previewEmail">
         Ton email
     </p>
-
 
     <p id="previewTelephone">
         Ton téléphone
     </p>
 
-
     <p id="previewVille">
         Ta ville
     </p>
 
-
     <hr>
 
-
-    <h3>
-        Profil
-    </h3>
+    <h3>Profil</h3>
 
     <p id="previewProfil">
         Présentez-vous en quelques lignes...
     </p>
 
-
-    <h3>
-        Expérience
-    </h3>
+    <h3>Expérience</h3>
 
     <p id="previewExperience">
         Ajoutez vos expériences professionnelles...
     </p>
 
-
-    <h3>
-        Formation
-    </h3>
+    <h3>Formation</h3>
 
     <p id="previewFormation">
         Ajoutez votre formation...
     </p>
 
-
-    <h3>
-        Compétences
-    </h3>
+    <h3>Compétences</h3>
 
     <p id="previewCompetences">
         Ajoutez vos compétences...

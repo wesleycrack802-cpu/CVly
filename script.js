@@ -13,18 +13,15 @@ const currentUser =
 
 if (!currentUser) {
 
-    alert(
-        "Tu dois être connecté pour accéder à ton CV."
-    );
+    alert("Tu dois être connecté.");
 
-    window.location.href =
-        "login.html";
+    window.location.href = "login.html";
 
 }
 
 
 // ==================================================
-// CLÉS UNIQUES POUR CHAQUE COMPTE
+// IDENTIFIANTS
 // ==================================================
 
 const userEmail =
@@ -38,8 +35,11 @@ const photoKey =
 
 
 // ==================================================
-// CHAMPS DU FORMULAIRE
+// CHAMPS
 // ==================================================
+
+const cvName =
+    document.getElementById("cvName");
 
 const prenom =
     document.getElementById("prenom");
@@ -136,12 +136,15 @@ const preview =
 
 
 // ==================================================
-// SAUVEGARDER
+// SAUVEGARDE
 // ==================================================
 
 function sauvegarder() {
 
     const cv = {
+
+        cvName:
+            cvName.value,
 
         prenom:
             prenom.value,
@@ -197,98 +200,79 @@ function sauvegarder() {
 
 
 // ==================================================
-// PRÉNOM
+// ÉCOUTEURS
 // ==================================================
+
+cvName.addEventListener(
+    "input",
+    sauvegarder
+);
+
 
 prenom.addEventListener(
     "input",
     function () {
 
         previewPrenom.textContent =
-            prenom.value ||
-            "Ton prénom";
+            prenom.value || "Ton prénom";
 
         sauvegarder();
 
     }
 );
 
-
-// ==================================================
-// NOM
-// ==================================================
 
 nom.addEventListener(
     "input",
     function () {
 
         previewNom.textContent =
-            nom.value ||
-            "Ton nom";
+            nom.value || "Ton nom";
 
         sauvegarder();
 
     }
 );
 
-
-// ==================================================
-// EMAIL
-// ==================================================
 
 email.addEventListener(
     "input",
     function () {
 
         previewEmail.textContent =
-            email.value ||
-            "Ton email";
+            email.value || "Ton email";
 
         sauvegarder();
 
     }
 );
 
-
-// ==================================================
-// TÉLÉPHONE
-// ==================================================
 
 telephone.addEventListener(
     "input",
     function () {
 
         previewTelephone.textContent =
-            telephone.value ||
-            "Ton téléphone";
+            telephone.value || "Ton téléphone";
 
         sauvegarder();
 
     }
 );
 
-
-// ==================================================
-// VILLE
-// ==================================================
 
 ville.addEventListener(
     "input",
     function () {
 
         previewVille.textContent =
-            ville.value ||
-            "Ta ville";
+            ville.value || "Ta ville";
 
         sauvegarder();
 
     }
 );
 
-
-// ==================================================
-// PROFIL
-// ==================================================
 
 profil.addEventListener(
     "input",
@@ -341,11 +325,8 @@ function updateFormation() {
 
 
     previewFormation.textContent =
-
-        valeurs.length > 0
-
+        valeurs.length
             ? valeurs.join(" — ")
-
             : "Ajoutez votre formation...";
 
 
@@ -407,11 +388,8 @@ function updateExperience() {
 
 
     previewExperience.textContent =
-
-        valeurs.length > 0
-
+        valeurs.length
             ? valeurs.join(" — ")
-
             : "Ajoutez vos expériences professionnelles...";
 
 
@@ -465,17 +443,12 @@ photoInput.addEventListener(
         const fichier =
             photoInput.files[0];
 
-
         if (!fichier) {
-
             return;
-
         }
-
 
         const lecteur =
             new FileReader();
-
 
         lecteur.onload =
             function (event) {
@@ -486,8 +459,6 @@ photoInput.addEventListener(
                 profilePhoto.style.display =
                     "block";
 
-
-                // PHOTO DU COMPTE
                 localStorage.setItem(
                     photoKey,
                     event.target.result
@@ -495,10 +466,7 @@ photoInput.addEventListener(
 
             };
 
-
-        lecteur.readAsDataURL(
-            fichier
-        );
+        lecteur.readAsDataURL(fichier);
 
     }
 );
@@ -515,7 +483,6 @@ function changerModele() {
         "elegant",
         "modern"
     );
-
 
     preview.classList.add(
         templateSelect.value
@@ -537,10 +504,12 @@ templateSelect.addEventListener(
 
 
 // ==================================================
-// REMETTRE LE CV À ZÉRO
+// VIDER LE CV
 // ==================================================
 
 function viderCV() {
+
+    cvName.value = "";
 
     prenom.value =
         currentUser.firstName || "";
@@ -570,11 +539,8 @@ function viderCV() {
     competences.value = "";
 
 
-    // Aperçu
-
     previewPrenom.textContent =
-        prenom.value ||
-        "Ton prénom";
+        prenom.value || "Ton prénom";
 
     previewNom.textContent =
         "Ton nom";
@@ -601,15 +567,11 @@ function viderCV() {
         "Ajoutez vos compétences...";
 
 
-    // PHOTO
-
     profilePhoto.src = "";
 
     profilePhoto.style.display =
         "none";
 
-
-    // MODÈLE
 
     templateSelect.value =
         "classic";
@@ -620,7 +582,7 @@ function viderCV() {
 
 
 // ==================================================
-// CHARGER LE CV DU COMPTE
+// CHARGER
 // ==================================================
 
 function chargerCV() {
@@ -628,10 +590,6 @@ function chargerCV() {
     const sauvegarde =
         localStorage.getItem(cvKey);
 
-
-    // ----------------------------------------------
-    // NOUVEAU COMPTE : RIEN À CHARGER
-    // ----------------------------------------------
 
     if (!sauvegarde) {
 
@@ -642,12 +600,12 @@ function chargerCV() {
     }
 
 
-    // ----------------------------------------------
-    // CV EXISTANT
-    // ----------------------------------------------
-
     const cv =
         JSON.parse(sauvegarde);
+
+
+    cvName.value =
+        cv.cvName || "";
 
 
     prenom.value =
@@ -694,29 +652,20 @@ function chargerCV() {
         cv.competences || "";
 
 
-    // ----------------------------------------------
-    // APERÇU
-    // ----------------------------------------------
-
     previewPrenom.textContent =
-        prenom.value ||
-        "Ton prénom";
+        prenom.value || "Ton prénom";
 
     previewNom.textContent =
-        nom.value ||
-        "Ton nom";
+        nom.value || "Ton nom";
 
     previewEmail.textContent =
-        email.value ||
-        "Ton email";
+        email.value || "Ton email";
 
     previewTelephone.textContent =
-        telephone.value ||
-        "Ton téléphone";
+        telephone.value || "Ton téléphone";
 
     previewVille.textContent =
-        ville.value ||
-        "Ta ville";
+        ville.value || "Ta ville";
 
     previewProfil.textContent =
         profil.value ||
@@ -733,10 +682,6 @@ function chargerCV() {
         "Ajoutez vos compétences...";
 
 
-    // ----------------------------------------------
-    // MODÈLE
-    // ----------------------------------------------
-
     if (cv.modele) {
 
         templateSelect.value =
@@ -746,10 +691,6 @@ function chargerCV() {
 
     }
 
-
-    // ----------------------------------------------
-    // PHOTO DU COMPTE
-    // ----------------------------------------------
 
     const photo =
         localStorage.getItem(photoKey);
@@ -776,7 +717,7 @@ function chargerCV() {
 
 
 // ==================================================
-// CHARGEMENT INITIAL
+// CHARGEMENT
 // ==================================================
 
 chargerCV();
@@ -787,7 +728,9 @@ chargerCV();
 // ==================================================
 
 const generateCV =
-    document.getElementById("generateCV");
+    document.getElementById(
+        "generateCV"
+    );
 
 
 generateCV.addEventListener(
@@ -798,12 +741,10 @@ generateCV.addEventListener(
             "printing"
         );
 
-
         setTimeout(
             function () {
 
                 window.print();
-
 
                 setTimeout(
                     function () {
@@ -825,6 +766,6 @@ generateCV.addEventListener(
 
 
 console.log(
-    "✅ CVly chargé pour : " +
+    "✅ CVly : CV chargé pour " +
     currentUser.email
 );
